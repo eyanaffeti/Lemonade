@@ -82,7 +82,6 @@ class MainActivity : AppCompatActivity() {
         //  lemonade making progression (or at least make some changes to the current state in the
         //  case of squeezing the lemon). That should be done in this conditional statement
         when ( LEMONADE_STATE.clickLemonImage()) {
-            LEMONADE_STATE.clickLemonImage() ->R.drawable.lemon_tree
             select -> R.drawable.lemon_tree
             squeeze -> R.drawable.lemon_squeeze
             drink -> R.drawable.lemon_drink
