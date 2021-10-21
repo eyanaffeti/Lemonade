@@ -81,12 +81,6 @@ class MainActivity : AppCompatActivity() {
         //  when the the image is clicked we may need to change state to the next step in the
         //  lemonade making progression (or at least make some changes to the current state in the
         //  case of squeezing the lemon). That should be done in this conditional statement
-        when ( LEMONADE_STATE.clickLemonImage()) {
-            select -> R.drawable.lemon_tree
-            squeeze -> R.drawable.lemon_squeeze
-            drink -> R.drawable.lemon_drink
-            else -> R.drawable.lemon_restart
-        }
 
         // TODO: When the image is clicked in the SELECT state, the state should become SQUEEZE
         //  - The lemonSize variable needs to be set using the 'pick()' method in the LemonTree class
@@ -103,8 +97,46 @@ class MainActivity : AppCompatActivity() {
 
         // TODO: lastly, before the function terminates we need to set the view elements so that the
         //  UI can reflect the correct state
-setViewElements()
+        when (lemonadeState){
+            SELECT->{
+                lemonSize=lemonTree.pick()
+                squeezeCount=0
+                lemonadeState=SQUEEZE;
+            }
+            SQUEEZE->{
+                squeezeCount+=1
+                lemonSize=1
+                if(lemonSize==0){
+                    lemonadeState=DRINK
+                    lemonSize=-1
+                }
+            }
+            DRINK->{
+                lemonadeState=RESTART
+
+            }
+            else ->{
+                lemonadeState=SELECT }
+
+
+        }
+        when(lemonadeState){
+            SELECT->textAction.setText("click to select a lemon !")
+            SQUEEZE->textAction.setText("click to juice the lemon !")
+            DRINK->textAction.setText("click to drink your lemonade ")
+            RESTART->textAction.setText("click to start again ")
+
+        }
+        when (lemonadeState) {
+            SELECT -> lemonImage?.setImageResource(R.drawable.lemon_tree)
+            SQUEEZE -> lemonImage?.setImageResource(R.drawable.lemon_squeeze)
+            DRINK -> lemonImage?.setImageResource(R.drawable.lemon_drink)
+            RESTART -> lemonImage?.setImageResource(R.drawable.lemon_restart)
+        }
+        setViewElements()
+
     }
+
 
     /**
      * Set up the view elements according to the state.
